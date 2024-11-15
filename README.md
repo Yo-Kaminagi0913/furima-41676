@@ -5,7 +5,7 @@
 | Column             | Type   | Options     |
 | ------------------ | ------ | ----------- |
 | nickname           | string | null: false |
-| email              | string | null: false |
+| email              | string | null: false, unique: true |
 | encrypted_password | string | null: false |
 | last_name          | string | null: false |
 | first_name         | string | null: false |
@@ -30,7 +30,7 @@
 | prefecture_id          | integer    | null: false                    |
 | scheduled_delivery_id  | integer    | null: false                    |
 | price                  | integer    | null: false                    |
-| user_id                | references | null: false, foreign_key: true |
+| user                   | references | null: false, foreign_key: true |
 
 ### Association
 
@@ -44,10 +44,10 @@
 
 ## purchases テーブル
 
-| Column  | Type       | Options                        |
-| ------- | ---------- | ------------------------------ |
-| user_id | references | null: false, foreign_key: true |
-| item_id | references | null: false, foreign_key: true |
+| Column| Type       | Options                        |
+| ----- | ---------- | ------------------------------ |
+| user  | references | null: false, foreign_key: true |
+| item  | references | null: false, foreign_key: true |
 
 ### Association
 
@@ -59,15 +59,14 @@
 
 | Column        | Type       | Options                        |
 | ------------- | ---------- | ------------------------------ |
-| purchase_id   | references | null: false, foreign_key: true |
-| postal_code   | integer    | null: false |
+| purchase      | references | null: false, foreign_key: true |
+| postal_code   | string     | null: false |
 | prefecture_id | integer    | null: false |
 | city          | string     | null: false |
 | address       | string     | null: false |
-| phone_number  | integer    | null: false |
+| phone_number  | string     | null: false |
 | building_name | string     |             |
 
 ### Association
 
 - belongs_to :purchase
-- belongs_to :prefecture
