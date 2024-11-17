@@ -8,7 +8,7 @@ RSpec.describe Item, type: :model do
   describe '商品の出品' do
     context '商品が出品できる場合' do
       it 'image,name,info,category_id,sales_status_id,
-      prefecture_id,scheduled_delivery_id,priceが存在すれば出品できる' do
+      prefecture_id,scheduled_delivery_id,price,userが存在すれば出品できる' do
         expect(@item).to be_valid
       end
     end
@@ -73,6 +73,11 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
       end
+      it 'priceが小数では出品できない' do
+        @item.price = 300.5
+        @item.valid?
+        expect(@item.errors.full_messages).to include('Price must be an integer')
+      end
       it 'priceが300未満では出品できない' do
         @item.price = 299
         @item.valid?
@@ -97,6 +102,11 @@ RSpec.describe Item, type: :model do
         @item.price = 'テスト'
         @item.valid?
         expect(@item.errors.full_messages).to include('Price is not a number')
+      end
+      it 'userが紐付いていなければ投稿できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include('User must exist')
       end
     end
   end
