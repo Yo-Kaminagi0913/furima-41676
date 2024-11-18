@@ -34,7 +34,7 @@ class ItemsController < ApplicationController
       render :edit, status: :unprocessable_entity
     end
   end
-
+  
   private
 
   def item_params
