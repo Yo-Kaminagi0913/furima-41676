@@ -2,6 +2,7 @@ class PurchasesController < ApplicationController
   before_action :authenticate_user!, only: :index
   def index
     @purchase_shipping_address = PurchaseShippingAddress.new
+    @item = Item.find(params[:item_id])
   end
 
   def create
