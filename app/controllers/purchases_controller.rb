@@ -2,14 +2,13 @@ class PurchasesController < ApplicationController
   before_action :authenticate_user!, only: :index
   before_action :move_to_top, only: :index
   before_action :sold_out, only: :index
+  before_action :find_item, only: [:index, :create]
   def index
     gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @purchase_shipping_address = PurchaseShippingAddress.new
-    @item = Item.find(params[:item_id])
   end
 
   def create
-    @item = Item.find(params[:item_id])
     @purchase_shipping_address = PurchaseShippingAddress.new(purchase_params)
     if @purchase_shipping_address.valid?
       pay_item
@@ -50,5 +49,9 @@ class PurchasesController < ApplicationController
     if @item.purchase.present?
       redirect_to root_path
     end
+  end
+
+  def find_item
+    @item = Item.find(params[:item_id])
   end
 end
